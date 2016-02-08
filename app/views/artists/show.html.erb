@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p class= "heading">
+  <strong><u><%= @artist.name %></u></strong>
+</p>
+
+<p class= "heading">
+  <strong>Latest single</strong> </br>
+  
+  </br>
+  <%= sanitize @artist.latest_single, :tags=>['iframe']%>
+</p>
+
+<p class= "heading">
+	</br>
+  <%= image_tag @artist.photo, :alt=>"No photo", :size=>"450x350" %>
+</p>
+
+<p class= "heading">
+  <strong>Genre:</strong>
+  <%= @artist.genre %>
+</p>
+
+<p class= "heading">
+  <strong>Minimum donation:</strong>
+  &euro;<%= @artist.minimum_donation %>
+</p>
+
+<%= link_to 'Edit', edit_artist_path(@artist) %> |
+<%= link_to 'Back', artists_path %>

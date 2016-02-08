@@ -1,0 +1,29 @@
+<%= form_for(@voteartist) do |f| %>
+  <% if @voteartist.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@voteartist.errors.count, "error") %> prohibited this voteartist from being saved:</h2>
+
+      <ul>
+      <% @voteartist.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+	<%= f.label :artist_id %><br>
+    <%= f.collection_select :artist_id, Artist.all, :id, :name %><br>
+  </div>
+  <div class="field">
+    <%= f.label :country_id %><br>
+    <%= f.collection_select :country_id, Country.all, :id, :country_name %>
+  </div>
+  <div class="field">
+    <%= f.label :amount_paid %><br>
+    <%= f.text_field :amount_paid %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Vote Artist" %>
+  </div>
+<% end %>
