@@ -25,7 +25,7 @@ class ArtistsController < ApplicationController
   # POST /artists.json
   def create
     @artist = Artist.new(artist_params)
-
+	
     respond_to do |format|
       if @artist.save
         format.html { redirect_to @artist, notice: 'Artist was successfully created.' }
@@ -69,6 +69,6 @@ class ArtistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def artist_params
-      params.require(:artist).permit(:name, :latest_single, :photo, :genre, :minimum_donation)
+      params.require(:artist).permit(:artist_name, :latest_single, :photo, :genre, :minimum_donation, :target_amount, :met_target, :target_date)
     end
 end

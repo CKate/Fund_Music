@@ -1,5 +1,15 @@
-<h1>New artist</h1>
 
-<%= render 'form' %>
+<div class="container">
+	<div class = "panel-group">
+		<div class = "panel panel-default">
+			<div class="panel-heading">
+				<h1 class="header">New artist</h1>
+			</div>
+			<div class="panel-body">
+				<%= render 'form' %>
+			</div>
+		</div>
+		<%= link_to 'Back', artists_path %>
+	</div>
 
-<%= link_to 'Back', artists_path %>
+</div>

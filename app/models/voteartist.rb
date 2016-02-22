@@ -3,5 +3,13 @@ class Voteartist < ActiveRecord::Base
 	belongs_to :artist
 	belongs_to :country
 	
-	validates :amount_paid, :numericality =>{ :greater_than => 4}
+	
+	
+	def must_be_greater_than_minimum
+		if amount_paid < artist.minimum_donation && user.balance < amount_paid
+			errors.add(:base, "Your balance is below the minimum donation.")
+		end
+	end
+	
+	validate :must_be_greater_than_minimum
 end

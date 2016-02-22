@@ -11,45 +11,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208101217) do
+ActiveRecord::Schema.define(version: 20160222171908) do
 
-  create_table "artists", force: true do |t|
-    t.string   "name"
+  create_table "artists", force: :cascade do |t|
+    t.string   "artist_name",      limit: 255
     t.text     "latest_single"
-    t.string   "photo"
-    t.string   "genre"
+    t.string   "photo",            limit: 255
+    t.string   "genre",            limit: 255
     t.decimal  "minimum_donation"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "target_amount"
+    t.boolean  "met_target"
+    t.datetime "target_date"
   end
 
-  create_table "countries", force: true do |t|
-    t.string   "country_name"
+  create_table "countries", force: :cascade do |t|
+    t.string   "country_name", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
+  create_table "users", force: :cascade do |t|
+    t.string   "first_name",      limit: 255
+    t.string   "last_name",       limit: 255
     t.date     "dob"
-    t.string   "user_name"
-    t.string   "email"
-    t.string   "password_digest"
-    t.string   "photo"
+    t.string   "user_name",       limit: 255
+    t.string   "email",           limit: 255
+    t.string   "password_digest", limit: 255
+    t.string   "photo",           limit: 255
     t.decimal  "balance"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "voteartists", force: true do |t|
+  create_table "voteartists", force: :cascade do |t|
     t.integer  "artist_id"
-    t.string   "user_id"
-    t.string   "integer"
+    t.integer  "user_id"
     t.integer  "country_id"
     t.decimal  "amount_paid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
 end

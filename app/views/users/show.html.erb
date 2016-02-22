@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<div class="container">
 <p>
   <strong>First name:</strong>
   <%= @user.first_name %>
@@ -13,6 +14,11 @@
 <p>
   <strong>Dob:</strong>
   <%= @user.dob %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @user.age(@user.dob)%>
 </p>
 
 <p>
@@ -37,3 +43,5 @@
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
+
+</div>
