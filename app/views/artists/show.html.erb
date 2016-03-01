@@ -25,25 +25,26 @@
   <strong>Minimum donation:</strong>
   &euro;<%= @artist.minimum_donation %>
 </p>
+
 	<%= form_for([@artist, Voteartist.new]) do |f|%>
-	<% if @voteartist.errors.any? %>
+		<% if @voteartist && @voteartist.errors.any? %>
 		<div id="error_explanation">
 		<h2><%= pluralize(@voteartist.errors.count, "error") %> prohibited this vote from being saved:</h2>
 
 		<ul>
 		<% @voteartist.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+			<li><%= message %></li>
 		<% end %>
 		</ul>
 		</div>
-	<% end %>
+		<% end %>
 		<%= f.label "Amount" %>
 		<%= f.select :amount_paid, ((0..500).map {|i| [i,i]} << ["No limit, nil"])%>
 		
 		<%= f.label "Country"%>
 		<%= f.collection_select :country_id, Country.all, :id, :country_name%>
 		<div class="actions">
-			<%= f.submit "Donate"%>
+			<%= f.submit %>
 		</div>
 	<% end %>
 <p>

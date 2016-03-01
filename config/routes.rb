@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   
-  resources :voteartists
-  resources :voteartists
   controller :sessions do
 	get 'login' => :new
 	post 'login' => :create
@@ -11,18 +9,14 @@ Rails.application.routes.draw do
   get 'pages/home'
 
   get 'pages/about'
-
-  resources :artists
-
-  resources :voteartists
-
   resources :countries
 
   resources :users
 
-  resources :artist do
+  resources :artists do
 	resources :voteartists
   end
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
