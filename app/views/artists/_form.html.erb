@@ -1,4 +1,5 @@
 <%= form_for(@artist, :class=>'form-horizontal') do |f|%>
+  <div class = "text-center">
   <% if @artist.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@artist.errors.count, "error") %> prohibited this artist from being saved:</h2>
@@ -10,18 +11,18 @@
       </ul>
     </div>
   <% end %>
-
+  </div>
   <div class="form-group">
     <%= f.label :artist_name %><br>
-    <%= f.text_field :artist_name, :class=>"form-control" %>
+    <%= f.text_field :artist_name, :class=>"form-control", :required=>true %>
   </div>
   <div class="form-group">
     <%= f.label :latest_single %><br>
-    <%= f.text_area :latest_single, :class=>"form-control" %>
+    <%= f.text_area :latest_single, :class=>"form-control", :required=>true %>
   </div>
   <div class="form-group">
     <%= f.label :photo %><br>
-    <%= f.text_field :photo, :class=>"form-control" %>
+    <%= f.text_field :photo, :class=>"form-control"%>
   </div>
   <div class="form-group">
     <%= f.label :genre %><br>
@@ -29,17 +30,17 @@
   </div>
   <div class="form-group">
     <%= f.label :minimum_donation %><br>
-    <%= f.text_field :minimum_donation, :class=>"form-control" %>
+    <%= f.text_field :minimum_donation, :class=>"form-control", :required=>true %>
   </div>
   <div class="form-group">
     <%= f.label :target_amount %><br>
-    <%= f.text_field :target_amount, :class=>"form-control" %>
+    <%= f.text_field :target_amount, :class=>"form-control", :required=>true %>
   </div>
   <div class="form-group">
     <%= f.label :target_date %><br>
-    <%= f.date_select :target_date, {:include_blank => false, :start_year => Time.now.year}%> 
+    <%= f.date_field :target_date,  {:include_blank => false, :start_year => Time.now.year, :class=>'form-control'}%> 
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Create", :class=>"btn btn-default"%>
   </div>
 <% end %>

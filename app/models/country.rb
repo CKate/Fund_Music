@@ -1,4 +1,3 @@
 class Country < ActiveRecord::Base
-	has_many :voteartists
-	validates :country_name, presence: true, uniqueness: true
+	has_many :voteartists, dependent: :destroy
 end

@@ -16,13 +16,32 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
- body{
+html {
+  position: relative;
+  min-height: 100%;
+}
+body{
 	font-family: 'Quicksand', sans-serif;
 	font-size: 20px;
 	background-image: url("bgpanelbody.jpg");
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
  }
- .container{
-	text-align: center;
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-image: url("bg.jpg");
+}
+
+ .noticeMessage{
+	color: red;
+ }
+ .formPanel{
+	margin: 0 auto;
+	width: 50%;
  }
 .panel > .panel-heading{
 	background-image: url("bg2.jpg");
@@ -31,9 +50,9 @@
 .panel > .panel-body{
 	background-image: url("bgpanelbody.jpg");
 }
- .panel .panel-default{
+ .panel > .panel-default{
 	background-image: url("bg.jpg");
-	border: 8px solid;
+	border: 10px solid;
 	padding: 0px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -70,20 +89,26 @@
     color: #ff00ff;
  }
  
- .login{
+.header{
 	font-family: 'Indie Flower', cursive;
-	border: 2px solid black;
-	padding-top: 50px;
-	margin: 0 auto;
-	font-size: 25px;
- }
- .login h1{
-	font-size: 50px;
- }
+	font-size: 48px;
+	text-align: center;
+}
  
  a{
 	color: #ff00ff;
  }
+ 
+ .form-horizontal{
+	margin: 0 auto; 
+	width:250px;
+ }
+ 
+.img-rounded{
+	border: 2px solid;
+	padding: 5px 5px 5px 5px;
+	border-image: url(bg.jpg) 60 stretch;
+}
  
  
  

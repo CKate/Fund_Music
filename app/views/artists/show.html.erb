@@ -1,55 +1,148 @@
-<p id="notice"><%= notice %></p>
-
-<p class= "heading">
-  <strong><u><%= @artist.artist_name %></u></strong>
-</p>
-
-<p class= "heading">
-  <strong>Latest single</strong> </br>
-  
-  </br>
-  <%= sanitize @artist.latest_single, :tags=>['iframe']%>
-</p>
-
-<p class= "heading">
-	</br>
-  <%= image_tag @artist.photo, :alt=>"No photo", :size=>"450x350" %>
-</p>
-
-<p class= "heading">
-  <strong>Genre:</strong>
-  <%= @artist.genre %>
-</p>
-
-<p class= "heading">
-  <strong>Minimum donation:</strong>
-  &euro;<%= @artist.minimum_donation %>
-</p>
-
-	<%= form_for([@artist, Voteartist.new]) do |f|%>
-		<% if @voteartist && @voteartist.errors.any? %>
-		<div id="error_explanation">
-		<h2><%= pluralize(@voteartist.errors.count, "error") %> prohibited this vote from being saved:</h2>
-
-		<ul>
-		<% @voteartist.errors.full_messages.each do |message| %>
-			<li><%= message %></li>
-		<% end %>
-		</ul>
+<div class="container">
+	<h1 class="header">
+		<%= @artist.artist_name %>
+	</h1>
+	<div class="row">
+		<div class="col-md-8">
+			
+			<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<ul class ="nav nav-tabs">
+							<li class="active"><a href="#about" data-toggle="tab">About</a></li>
+							<li><a href="#latest_single" data-toggle="tab">Latest Single</a></li>
+							<li><a href="#backers" data-toggle="tab">Backers</a></li>
+						</ul>
+					</div>
+					
+					<div class="panel-body">
+						<div class="tab-content">
+							<div class="tab-pane fade in active" id="about">
+								<p class="text-center">
+								</br>
+									<%= image_tag @artist.photo, :alt=>"No photo", :size=>"450x350" %>
+								</p>
+								<p>
+									<strong>Genre:</strong>
+									<%= @artist.genre %>
+								</p>
+				
+								<%= link_to 'Edit', edit_artist_path(@artist) %> |
+								<%= link_to 'Back', artists_path %>
+							</div>
+							<div class="tab-pane fade in" id="latest_single">
+								<p class="text-center">
+									</br>
+									<%= sanitize @artist.latest_single, :tags=>['iframe']%>
+								</p>
+							</div>
+							<div class="tab-pane fade in" id="backers">
+								<p>
+									<% if @artist.voteartists.empty? %>
+										<h2> You are the first one to Donate! </h2>
+									<% else %>
+										<% @artist.voteartists.reverse.each do |vote| %>
+											<p>
+												<%= vote.user.user_name %> amount: <%= vote.amount_paid %> voted for 
+												<%= vote.country.name %>
+											</p> 
+										<% end %>
+									<% end %>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<% end %>
-		<%= f.label "Amount" %>
-		<%= f.select :amount_paid, ((0..500).map {|i| [i,i]} << ["No limit, nil"])%>
 		
-		<%= f.label "Country"%>
-		<%= f.collection_select :country_id, Country.all, :id, :country_name%>
-		<div class="actions">
-			<%= f.submit %>
+		<div class="col-md-4">
+			<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>Further details</strong>
+					</div>
+					<div class="panel-body">
+						<p>
+							<strong>Target date:</strong> <%= @artist.target_date.strftime("%d-%B-%Y") %>
+							</br>
+							<strong>Days Left: </strong><%= distance_of_time_in_words(Time.now.to_date, @artist.target_date.to_date)%>
+							</br>
+							</br>
+							<strong>Target amount: </strong>&euro;<%= @artist.target_amount%>
+							</br>
+							<strong>Total Donation: </strong>&euro;<%= @artist.total_donation%>
+						<p>
+					</div>
+				</div>
+			</div>
 		</div>
-	<% end %>
-<p>
-	
-</p>
+		<div class="col-md-4">
+			<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong>Countries</strong>
+					</div>
+					<div class="panel-body">
+						<p>
+							<% if @artist.voteartists.empty? %>
+										<h2> Donate now! </h2>
+									<% else %>
+										<% @artist.voteartists.uniq.reverse.each do |vote| %>
+											<p>
+												<%= vote.country.name %> <strong>|</strong> <%= Voteartist.select(:country_id).count %> vote
+											</p> 
+									<% end %>
+							<% end %>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div class="panel-group">
+				<div class="panel panel-default">
+					<div class= "panel-heading">
+						<h3>Donate!</h3>
+					</div>
+					<div class ="panel-body">
+						<strong>Minimum donation:</strong>
+						&euro;<%= @artist.minimum_donation %>
+						<%= form_for([@artist, Voteartist.new], {:class=>'form-horizontal'}) do |f|%>
+							<% if @voteartist && @voteartist.errors.any? %>
+								<div id="error_explanation">
+									<h2><%= pluralize(@voteartist.errors.count, "error") %> prohibited this vote from being saved:</h2>
+									<ul>
+										<% @voteartist.errors.full_messages.each do |message| %>
+											<li><%= message %></li>
+										<% end %>
+									</ul>
+								</div>
+							<% end %>
+						
+							<div class="form-group">
+								<%= f.label "Amount" %>
+								<%= f.select :amount_paid, ((1..500).map {|i| [i,i]} << ["No limit, nil"]), :class=>"form-control"%>
+							</div>
+						
+							<div class="form-group">
+								<%= f.label "Country"%>
+								<%= f.collection_select :country_id, Country.all, :id, :name, :class=>"form-control"%>
+							</div>
+							<div class="actions">
+								<%= f.submit "Donate/Vote", :class=>"btn btn-default"%>
+							</div>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-<%= link_to 'Edit', edit_artist_path(@artist) %> |
-<%= link_to 'Back', artists_path %>
+
+
+
+
+
+

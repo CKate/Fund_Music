@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222171908) do
+ActiveRecord::Schema.define(version: 20160310214633) do
 
   create_table "artists", force: :cascade do |t|
     t.string   "artist_name",      limit: 255
@@ -24,12 +24,14 @@ ActiveRecord::Schema.define(version: 20160222171908) do
     t.decimal  "target_amount"
     t.boolean  "met_target"
     t.datetime "target_date"
+    t.decimal  "total_donation"
   end
 
   create_table "countries", force: :cascade do |t|
-    t.string   "country_name", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -43,6 +45,9 @@ ActiveRecord::Schema.define(version: 20160222171908) do
     t.decimal  "balance"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "voteartists", force: :cascade do |t|

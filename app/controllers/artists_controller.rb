@@ -1,6 +1,6 @@
 class ArtistsController < ApplicationController
   before_action :set_artist, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /artists
   # GET /artists.json
   def index
@@ -20,11 +20,24 @@ class ArtistsController < ApplicationController
   # GET /artists/1/edit
   def edit
   end
-
+  #search for artist
+  def search
+	@artists = Artist.search params[:query]
+	unless @artists.empty?
+		render 'artists/index'
+	else
+		flash[:notice] = 'No record matches that search'
+		render 'index'
+	end
+  end
   # POST /artists
   # POST /artists.json
   def create
     @artist = Artist.new(artist_params)
+	@artist.total_donation = 0
+	if @artist.photo.empty? || @artist.photo.nil?
+		@artist.photo = "no_image.png"
+	end
 	
     respond_to do |format|
       if @artist.save
@@ -69,6 +82,6 @@ class ArtistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def artist_params
-      params.require(:artist).permit(:artist_name, :latest_single, :photo, :genre, :minimum_donation, :target_amount, :met_target, :target_date)
+      params.require(:artist).permit(:artist_name, :latest_single, :photo, :genre, :minimum_donation, :target_amount, :met_target, :target_date, :total_donation)
     end
 end

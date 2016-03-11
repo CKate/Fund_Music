@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  before_filter :authorise, only:[:edit, :delete]
   # GET /users
   # GET /users.json
   def index
@@ -25,7 +25,10 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+	if @user.photo.nil? || @user.photo.empty?
+		@user.photo = "no_image.png" #sets the user's photo to no_image.png if there's no photo provided
+	end
+	
     respond_to do |format|
       if @user.save
 		Usermailer.welcome(@user).deliver_now
@@ -55,11 +58,16 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+	if current_user.id == @user.id
+		@user.destroy
+		respond_to do |format|
+		  format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+		  format.json { head :no_content }
+		end
+	else
+		flash[:error] = "You cannot delete this profile!"
+		redirect_to @user
+	end
   end
 
   private
@@ -70,6 +78,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :dob, :user_name, :email, :password, :confirm_password,  :photo, :balance)
+      params.require(:user).permit(:first_name, :last_name, :dob, :user_name, :email, :password, :confirm_password,  :photo, :balance, :address, :latitude, :longitude)
     end
 end

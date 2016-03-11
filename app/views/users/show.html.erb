@@ -1,47 +1,91 @@
-<p id="notice"><%= notice %></p>
-
 <div class="container">
-<p>
-  <strong>First name:</strong>
-  <%= @user.first_name %>
-</p>
+	</br></br>
+	<div class = "row">
+		<div class="col-md-4">
+			<%= image_tag @user.photo, :alt=>"No photo", :size=>"450x360", :class=>"img-rounded img-responsive"%>
+			</br></br>
+			<div class="panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Location
+						<% if !@user.address.nil? %>
+							 <%= "- " + @user.address %>
+						<% end %>
+					</div>
+					<div class="panel-body">
+						<p>
+							<% if @user.address.nil? || @user.address.empty? %>
+								<p>Please edit your details to show your location.</p>
+							<% else %>
+								<%= image_tag "http://maps.google.com/maps/api/staticmap?size=330x360&sensor=false&zoom=16&markers=#{@user.latitude}%2C#{@user.longitude}" %>
+							<% end %>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-md-8">
+			<strong class="header"> <%= @user.first_name %> <%= @user.last_name %> </strong>
+			</br></br>
+			<div class = "panel-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<ul class ="nav nav-tabs">
+							<li class="active"><a href="#info" data-toggle="tab">Personal Information</a></li>
+							<li><a href="#contributions" data-toggle="tab">Contributions</a></li>
+							<li><a href="#artists" data-toggle="tab">Artists you voted</a></li>
+						</ul>
+					</div>
+					<div class="panel-body">
+						<div class="tab-content">
+							<div class="tab-pane fade in active" id="info">
+								<p>
+									<strong>Date of birth: </strong><%= @user.dob.strftime("%d-%B-%Y") %>
+									</br></br>
+									<strong>Age:</strong> <%= @user.age(@user.dob)%>
+									</br></br>
+									<strong>User name:</strong> <%= @user.user_name %>
+									</br></br>
+									<strong>Email:</strong> <%= @user.email %>
+									</br></br>
+									<% if logged_in? && @current_user.id == @user.id%>
+										<strong>Balance:</strong> &euro;<%= @user.balance %>
+										</br></br>
 
-<p>
-  <strong>Last name:</strong>
-  <%= @user.last_name %>
-</p>
-
-<p>
-  <strong>Dob:</strong>
-  <%= @user.dob %>
-</p>
-
-<p>
-  <strong>Age:</strong>
-  <%= @user.age(@user.dob)%>
-</p>
-
-<p>
-  <strong>User name:</strong>
-  <%= @user.user_name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Photo:</strong>
-  <%= @user.photo %>
-</p>
-
-<p>
-  <strong>Balance:</strong>
-  <%= @user.balance %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
-
+										<%= link_to 'Edit', edit_user_path(@user) %> |
+										<%= link_to 'Back', users_path %> |
+										<%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?'
+										} %>
+									<% end%>
+								</p>
+							</div>
+							
+							<div class="tab-pane fade in" id="contributions">
+								<p>
+									<strong>Recent Contributions: </strong>
+									<% @user.voteartists.reverse.each do |v| %>
+										<p>
+											Contributed to <%= v.artist.artist_name %>
+											by &euro;<%= v.amount_paid %>
+										</p>
+									<%end%>
+								</p>
+							</div>
+							
+							<div class="tab-pane fade in" id="artists">
+								<p>
+									<strong>Artists you voted for: </strong>
+									<% @user.voteartists.reverse.each do |v| %>
+										<t><p><%= v.artist.artist_name %></p></t>
+									<%end%>	
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
 </div>
